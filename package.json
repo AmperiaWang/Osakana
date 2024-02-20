@@ -1,0 +1,16 @@
+{
+  "name": "automatic-copper-retire-dvt5s",
+  "productName": "automatic-copper-retire-dvt5s",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "amperiawang",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "28.2.0"
+  }
+}
