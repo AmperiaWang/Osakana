@@ -1,9 +1,9 @@
-import 'mdui/mdui.css';
-import 'mdui';
-
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
+const mdui_css = require('mdui/mdui.css')
+const mdui = require('mdui')
+const echarts = require('echarts')
 
 function createWindow () {
   // Create the browser window.

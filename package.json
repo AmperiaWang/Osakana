@@ -1,7 +1,7 @@
 {
-  "name": "osakana",
-  "productName": "osakana",
-  "description": "Event editor based on Electron",
+  "name": "automatic-copper-retire-dvt5s",
+  "productName": "automatic-copper-retire-dvt5s",
+  "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
@@ -10,7 +10,8 @@
     "start": "electron ."
   },
   "dependencies": {
-    "echarts": "^5.5.0"
+    "echarts": "5.5.0",
+    "mdui": "2.0.6"
   },
   "devDependencies": {
     "electron": "28.2.0"
