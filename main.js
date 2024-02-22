@@ -2,20 +2,21 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('node:fs');
 const path = require('node:path');
-const nj = require("numjs");
-
-function extract(data, mask, shift) {
-  var res = [];
-  for (var i = 0; i < data.shape[0]; i++) {
-    var temp = (data.get(i) >> shift) & mask;
-    res.push(temp);
-  }
-  res = nj.array(res);
-  return res;
-}
+const { off } = require('node:process');
 
 function fileNameToData(fileName, endian = ">", dataType = "u4") {
   var buf = fs.readFileSync(fileName);
+  var offset = 0;
+  var s = buf.toString();
+  while (offset < s.length && s[offset] == "#") {
+    while (offset < s.length && s[offset] != "\n") {
+      offset++;
+    }
+    offset++;
+  }
+  if (offset >= s.length) {
+    return [];
+  }
   var fun = "read";
   var singleSize = 4;
   switch (dataType) {
@@ -68,20 +69,12 @@ function fileNameToData(fileName, endian = ">", dataType = "u4") {
       break;
   }
   var res = [];
-  for (var i = 0; i < buf.length; i += singleSize) {
+  for (var i = offset; i < buf.length; i += singleSize) {
+    if (i + singleSize >= buf.length) {
+      continue;
+    }
     res.push(buf[fun](i));
   }
-  res = nj.array(res);
-  return res;
-}
-
-function dataToTPYX(data, p_mask = 0x1, p_shift = 0, y_mask = 0x7FFF, y_shift = 16, x_mask = 0x7FFF, x_shift = 1, sampling = 1000) {
-  var xyp = data.slice([null, null, 2]);
-  var t = data.slice(1).slice([null, null, 2]);
-  var p = extract(xyp, p_mask, p_shift);
-  var y = extract(xyp, y_mask, y_shift);
-  var x = extract(xyp, x_mask, x_shift);
-  var res = nj.array([t.tolist(), p.tolist(), y.tolist(), x.tolist()]).transpose();
   return res;
 }
 
@@ -94,18 +87,18 @@ ipcMain.on("selectFile", (event) => {
   });
   if (result && result.length) {
     var fileName = result[0];
-    var res = dataToTPYX(fileNameToData(fileName)).tolist();
-    event.reply("selectedItem", { "file_name": fileName, "data": res });
+    var res = fileNameToData(fileName);
+    event.reply("selectedItem", { "succeeded": true, "file_name": fileName, "data": res });
   } else {
-    event.reply("selectedItem", { "file_name": "", "data": [] });
+    event.reply("selectedItem", { "succeeded": false, "file_name": "", "data": null });
   }
 });
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 960,
     webPreferences: {
       icon: path.join(__dirname, 'favicon.ico'),
       preload: path.join(__dirname, 'preload.js'),
@@ -121,7 +114,7 @@ function createWindow() {
   mainWindow.loadFile('index.html');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
@@ -141,7 +134,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
+  app.quit();
 });
 
 // In this file you can include the rest of your app's specific main process

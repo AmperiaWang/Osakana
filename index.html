@@ -17,11 +17,27 @@
 
 <body>
   <mdui-top-app-bar style="position: relative;">
-    <mdui-top-app-bar-title id="file-name">事件编辑器</mdui-top-app-bar-title>
+    <mdui-text-field id="p-shift" label="p偏移" value="0" class="attr-input" pattern="[0-9]+"></mdui-text-field>
+    <mdui-text-field id="p-mask" label="p掩膜" value="1" prefix="0x" class="attr-input" required="true" pattern="[0-9ABCDEFabcdef]+"></mdui-text-field>
+    <mdui-text-field id="y-shift" label="y偏移" value="16" class="attr-input" pattern="[0-9]+"></mdui-text-field>
+    <mdui-text-field id="y-mask" label="y掩膜" value="7fff" prefix="0x" class="attr-input" required="true" pattern="[0-9ABCDEFabcdef]+"></mdui-text-field>
+    <mdui-text-field id="x-shift" label="x偏移" value="1" class="attr-input" pattern="[0-9]+"></mdui-text-field>
+    <mdui-text-field id="x-mask" label="x掩膜" value="7fff" prefix="0x" class="attr-input" required="true" pattern="[0-9ABCDEFabcdef]+"></mdui-text-field>
+    <mdui-text-field id="height" label="高度" value="800" class="attr-input" pattern="([1-9]|[0-9][0-9]+)"></mdui-text-field>
+    <mdui-text-field id="width" label="宽度" value="1280" class="attr-input" pattern="([1-9]|[0-9][0-9]+)"></mdui-text-field>
     <div style="flex-grow: 1"></div>
     <mdui-button-icon id="open-file"><i class="material-icons-outlined">folder</i></mdui-button-icon>
   </mdui-top-app-bar>
   <div id="event-viewer" style="position: absolute; top: 64px; left: 1%; height: calc(100% - 144px); width: 98%;"></div>
+  <div id="event-info" style="position: absolute; top: 80px; left: 1%; width: 98%;">
+    Frame
+    <span id="current-frame">0</span>
+    /
+    <span id="total-frame">0</span>
+    &nbsp;&nbsp;
+    Timestamp
+    <span id="current-timestamp">0 ~ 0</span>
+  </div>
   <mdui-bottom-app-bar style="position: absolute; bottom: 0;">
     <mdui-slider id="viewer-slider" min="1" max="1" step="1"></mdui-slider>
     <div style="flex-grow: 1"></div>
