@@ -5,6 +5,18 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
+
+const { contextBridge, ipcRenderer } = require('electron/renderer');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  openFile: (callback) => {
+    ipcRenderer.send('selectFile');
+    ipcRenderer.on("selectedItem", (event, data) => {
+      callback(data);
+  });
+  }
+});
+
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)

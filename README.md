@@ -1,2 +1,5 @@
 # Osakana
-Event editor based on Electron
+
+![LOGO](./assets/logo.png)
+
+An event editor based on Electron.

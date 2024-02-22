@@ -1,19 +1,24 @@
 {
-  "name": "automatic-copper-retire-dvt5s",
-  "productName": "automatic-copper-retire-dvt5s",
+  "name": "osakana",
+  "productName": "osakana",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
-  "author": "amperiawang",
+  "author": "mint",
   "scripts": {
     "start": "electron ."
   },
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "echarts": "5.5.0",
-    "mdui": "2.0.6"
+    "jquery": "^3.7.1",
+    "material-icons": "^1.13.12",
+    "materialize-css": "^1.0.0-rc.2",
+    "mdui": "2.0.6",
+    "numjs": "^0.16.1"
   },
   "devDependencies": {
-    "electron": "28.2.0"
+    "electron": "^28.2.0"
   }
 }
